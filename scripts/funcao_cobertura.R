@@ -4,7 +4,7 @@ if(!require(dplyr)) {
   require(dplyr)
 }
 
-source("scripits/funcao_montar_cardapio.R")
+source("scripts/funcao_montar_cardapio.R")
 
 # Seleciona a despensa dentre todas as encontradas na base de dados
 funcao_selecionar_despensa <- function(base_de_despensas, numero_despensa){
