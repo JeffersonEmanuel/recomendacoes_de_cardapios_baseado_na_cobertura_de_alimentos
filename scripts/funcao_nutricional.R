@@ -48,8 +48,8 @@ funcao_nutricional <- function(valor_nutriente_cardapio, valor_minino_esperado,
   valor <- 
     (
       ( 
-        abs(valor_nutriente_cardaio-valor_minino_esperado) +
-          abs(valor_nutriente_cardaio-valor_maximo_esperado) - 
+        abs(valor_nutriente_cardapio-valor_minino_esperado) +
+          abs(valor_nutriente_cardapio-valor_maximo_esperado) - 
           abs(valor_maximo_esperado - valor_minino_esperado) 
       ) / valor_maximo_nutriente_soma_base 
     )

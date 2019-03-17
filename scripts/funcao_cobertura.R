@@ -5,15 +5,17 @@ if(!require(dplyr)) {
 }
 
 source("scripts/funcao_montar_cardapio.R")
+base_de_despensas <- read.csv2("bases/base_sintetica_com_cestas_de_compras.csv")
 
 # Seleciona a despensa dentre todas as encontradas na base de dados
-funcao_selecionar_despensa <- function(base_de_despensas, numero_despensa){
+funcao_selecionar_despensa <- function(numero_despensa){
   despensa <- base_de_despensas %>% filter(despensa == numero_despensa)
   return(despensa)
 }
 
 # Filtra o conjunto de alimentos presentes no cardápio que estão presente na despensa já com a quantidade utilizada no cardapio
-funcao_selecionar_ingredientes_em_comum <- function(despensa, cardapio, numero_de_porcoes) {
+funcao_selecionar_ingredientes_em_comum <- function(numero_despensa, cardapio, numero_de_porcoes) {
+  despensa = funcao_selecionar_despensa(numero_despensa = despensa)
   alimentos_em_comum <- cardapio %>% 
     select(ingrediente, quantidade_por_pocao) %>% 
     filter(ingrediente %in% despensa$alimento) %>% 
@@ -24,7 +26,8 @@ funcao_selecionar_ingredientes_em_comum <- function(despensa, cardapio, numero_d
 }
 
 # Seleciona os alimentos na despensa que estão presentes no cardápio e a quantidade disponivel na despensa
-ingredientes_em_comum_despensa <- function(despensa, cardapio) {
+ingredientes_em_comum_despensa <- function(numero_despensa, cardapio) {
+  despensa = funcao_selecionar_despensa(numero_despensa = despensa)
   alimentos_em_comum <- despensa %>% 
     select(alimento, quantidade_disponivel = quantidade) %>% 
     filter(alimento %in% cardapio$ingrediente) 
@@ -43,13 +46,13 @@ funcao_selecionar_menor_valor <- function(quantidade_despensa, quantidade_necess
 
 
 # Funcao utilizada para verificar a viabilidade do cardapio quando considerado os alimentos da cesta de compras do usuario
-funcao_cobertura <- function(despensa, cardapio, numero_de_porcoes) {
+funcao_cobertura <- function(numero_despensa, cardapio, numero_de_porcoes) {
    
   # Seleciona Alimentos que tambem estaão na despensa para compor o cardápio. Seleciona também a quantidade necessária de acordo com o numero de porções
-  alimentos_comum_cardapio_em_quantidades_necessarias <- funcao_selecionar_ingredientes_em_comum(despensa = despensa, cardapio = cardapio, numero_de_porcoes = numero_de_porcoes)
+  alimentos_comum_cardapio_em_quantidades_necessarias <- funcao_selecionar_ingredientes_em_comum(numero_despensa = despensa, cardapio = cardapio, numero_de_porcoes = numero_de_porcoes)
   
   # Seleciona os alimentos na despensa que estão presentes no cardápio selecionado. seleciona também a quantiade disponivel
-  alimentos_comum_despensa_em_quantidades_disponivel <- ingredientes_em_comum_despensa(despensa = despensa, cardapio = cardapio)
+  alimentos_comum_despensa_em_quantidades_disponivel <- ingredientes_em_comum_despensa(numero_despensa = despensa, cardapio = cardapio)
   
   if(nrow(alimentos_comum_cardapio_em_quantidades_necessarias)>0 && nrow(alimentos_comum_despensa_em_quantidades_disponivel)>0) {
     
