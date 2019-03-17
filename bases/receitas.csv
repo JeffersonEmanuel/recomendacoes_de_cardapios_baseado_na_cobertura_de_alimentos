@@ -1,4 +1,4 @@
-"categoria";"receita";"ingrediente";"quantidadePorPocao";"gordura";"carboidrato";"proteina";"caloria"
+"categoria";"receita";"ingrediente";"quantidade_por_pocao";"gordura";"carboidrato";"proteina";"caloria"
 "salada";"SALADA SIMPLES";"alface";"50";0;1;0,5;7
 "salada";"SALADA SIMPLES";"cenoura";"24";0;2,4;0,24;10,8
 "salada";"SALADA SIMPLES";"beterraba";"13.66666667";0;0,24600000006;0,08200000002;1,33933333366
